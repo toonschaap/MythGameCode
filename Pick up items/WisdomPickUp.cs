@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WisdomPickUp : MonoBehaviour
 {
+    public AudioSource bottleOpening;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,8 +21,10 @@ public class WisdomPickUp : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-               GameObject Finder = GameObject.FindWithTag("Player");
-        Finder.GetComponent<WisdomCounter>().IncreaseWisdomChest();
+            GameObject Finder = GameObject.FindWithTag("Player");
+            Finder.GetComponent<WisdomCounter>().IncreaseWisdomBottle();
+            bottleOpening.Play();
+
             Destroy(this.gameObject);
         }
     }
