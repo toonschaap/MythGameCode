@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class DisableHitBox : MonoBehaviour
 {
-    public Collider HitBox;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private Collider HitBox;
 
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             HitBox.enabled = false;
-            Debug.Log("Hitbox off");
         }
         else
         {

@@ -11,11 +11,6 @@ public class TextSwitch : MonoBehaviour
     private Text text;
     int TextInt = 0;
 
-    void Awake()
-    {
-       
-    }
-
     void Update()
     {
         ChangeText();

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossRockAttack : MonoBehaviour
+public class SlamAttack : MonoBehaviour
 {
     [SerializeField]
     private GameObject Rock;
@@ -14,7 +14,7 @@ public class BossRockAttack : MonoBehaviour
     [SerializeField]
     private float spawnThreshold = 100f;
     private float spawnTimer;
-    private bool RockAttack;
+    private bool SlamAttackAnansi;
 
     [HideInInspector]
     public Animator anim;
@@ -50,9 +50,9 @@ public class BossRockAttack : MonoBehaviour
 
         anim = activeModel.GetComponent<Animator>();
     }
-        private void HandleMovementAnimations()
+    private void HandleMovementAnimations()
     {
-        anim.SetBool("RockAttack", RockAttack);
+        anim.SetBool("RockAttack", SlamAttackAnansi);
     }
 
 
@@ -63,24 +63,24 @@ public class BossRockAttack : MonoBehaviour
     {
         HandleMovementAnimations();
 
-        
+
 
         StartCoroutine("StartSlamAnimation");
-        
+
 
         spawnTimer += 0.01f;
         if (SlamAttack == true)
         {
             if (spawnTimer >= spawnThreshold)
             {
-                Rockattack();
+                SlamAttackFunction();
                 spawnTimer = 0;
             }
         }
 
     }
 
-    private void Rockattack()
+    private void SlamAttackFunction()
     {
         Vector3 playerPos = player.transform.position;
         Vector3 playerDirection = player.transform.up;
@@ -88,29 +88,29 @@ public class BossRockAttack : MonoBehaviour
 
         Vector3 spawnPos = playerPos + playerDirection * height;
 
-        Instantiate(Rock, spawnPos, Quaternion.identity);     
+        Instantiate(Rock, spawnPos, Quaternion.identity);
         StopCoroutine("StartSlamAnimation");
         StartCoroutine("StartSlam");
-   
+
 
     }
 
     IEnumerator StartSlamAnimation()
     {
-        
+
         yield return new WaitForSeconds(5);
-        
-        RockAttack = true;
-        SlamAttack = true;     
+
+        SlamAttackAnansi = true;
+        SlamAttack = true;
     }
 
     IEnumerator StartSlam()
     {
-        
+
         yield return new WaitForSeconds(5);
-        RockAttack = false;
+        SlamAttackAnansi = false;
         SlamAttack = false;
-        
+
     }
 
 

@@ -9,17 +9,11 @@ public class GameOver : MonoBehaviour
     private Button RestartButton, StopButton;
 
 
-    // Start is called before the first frame update
+   
     void Start()
     {
         RestartButton.onClick.AddListener(StartOnClick);
         StopButton.onClick.AddListener(ExitOnClick);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 

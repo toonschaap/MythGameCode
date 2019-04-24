@@ -4,43 +4,31 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    private Animator _animator;
-    private GameObject _player;
-    private bool _collidedWithPlayer;
-
-    private void Start()
-    {
-    }
+    private Animator animator;
+    private GameObject player;
+    private bool collidedWithPlayer;
 
     private void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
-        _animator = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        animator = GetComponent<Animator>();
     }
 
     //trigger enter
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == player)
         {
-            _animator.SetBool("attackRange", true);
+            animator.SetBool("attackRange", true);
         }
     }
 
     //trigger exit
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == player)
         {
-            _animator.SetBool("attackRange", false);
-        }
-    }
-
-    //attack
-    private void Attack()
-    {
-        if (_collidedWithPlayer)
-        {
+            animator.SetBool("attackRange", false);
         }
     }
 }

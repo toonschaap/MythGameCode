@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ActivateDeflect : MonoBehaviour
 {
-    public Collider Deflectbox;
+    [SerializeField]
+    private Collider Deflectbox;
 
      void Start()
     {

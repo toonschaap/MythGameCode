@@ -4,58 +4,65 @@ using System.Collections;
 public class StateManager : MonoBehaviour
 {
     [Header("Init")]
-    public GameObject activeModel;
+    [SerializeField]
+    private GameObject activeModel;
 
     [Header("Inputs")]
     public float horizontal;
-
     public float vertical;
     public float moveAmount;
+
     public Vector3 moveDir;
 
     [Header("Stats")]
     private float moveSpeed = 4;
-
     private float runSpeed = 8f;
     private float rotateSpeed = 5;
     private float toGround = 0.5f;
 
     [SerializeField]
+    private float attackSpeed = 1f;
+    private float nextAttack = 1f;
+    [SerializeField]
     private BoxCollider Sword;
 
-    public AudioSource walkSound;
-    public AudioSource runSound;
     public AudioSource slash;
-    private bool isWalking = true;
 
     [Header("States")]
     public bool run;
-
     public bool walk;
-
     private bool Attack;
     private bool onGround;
     private bool lockOn;
 
-    [HideInInspector]
-    public Animator anim;
-
-    [HideInInspector]
-    public Rigidbody rb;
-
-    [HideInInspector]
-    public float delta;
-
-    [HideInInspector]
-    public LayerMask ignoreLayers;
+    private Animator anim;
+    private Rigidbody rb;
+    private float delta;
+    private LayerMask ignoreLayers;
 
     public void Start()
     {
         Sword.enabled = false;
     }
 
-    //rigid body setup
-    public void Init()
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && Time.time > nextAttack)
+        {
+            Attack = true;
+            Sword.enabled = true;
+            nextAttack = Time.time + attackSpeed;
+            StartCoroutine("PlaySound");
+        }
+        else
+        {
+            Attack = false;
+            Sword.enabled = false;
+        }
+    }
+
+        //rigid body setup
+        public void Init()
     {
         SetupAnimator();
         rb = GetComponent<Rigidbody>();
@@ -124,59 +131,7 @@ public class StateManager : MonoBehaviour
         anim.SetBool("onGround", onGround);
     }
 
-    [SerializeField]
-    private float attackSpeed = 1f;
 
-    private float nextAttack = 1f;
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0) && Time.time > nextAttack)
-        {
-            StartCoroutine("PlaySound");
-            Attack = true;
-            Sword.enabled = true;
-            nextAttack = Time.time + attackSpeed;
-        }
-        else
-        {
-            Attack = false;
-            Sword.enabled = false;
-        }
-
-        bool shift = Input.GetKeyDown(KeyCode.LeftShift);
-        bool keys = Input.GetKeyDown("w") || Input.GetKeyDown("s") || Input.GetKeyDown("a") || Input.GetKeyDown("d");
-
-        if (keys)
-        {
-            {
-                walkSound.Play();
-                walkSound.loop = true;
-            }
-        }
-
-        if (Input.GetKeyUp("w") || Input.GetKeyUp("s") || Input.GetKeyUp("a") || Input.GetKeyUp("d") || shift)
-        {
-            isWalking = false;
-            walkSound.Stop();
-        }
-
-        if (shift && Input.GetKey("w") || shift && Input.GetKey("s") || shift && Input.GetKey("a") || shift && Input.GetKey("d"))
-        {
-            isWalking = false;
-            Debug.Log("run");
-            runSound.Play();
-            runSound.loop = true;
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            walkSound.Play();
-            walkSound.loop = true;
-            runSound.Stop();
-            isWalking = true;
-        }
-    }
 
     private IEnumerator PlaySound()
     {

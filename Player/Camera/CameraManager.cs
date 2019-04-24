@@ -2,23 +2,24 @@
 
 public class CameraManager : MonoBehaviour
 {
-    public bool lockon;
+    
     private float followSpeed = 9;
     private float mouseSpeed = 3;
     private float controllerSpeed = 7;
+    [SerializeField]
+    private Transform target;
+    [SerializeField]
+    private GameObject MainCamera;
+    [SerializeField]
+    private GameObject SecondCamera;
 
-    public Transform target;
+    
+    private Transform pivot;
 
-    public GameObject MainCamera;
-    public GameObject SecondCamera;
 
-    [HideInInspector]
-    public Transform pivot;
+    private Transform camTrans;
 
-    [HideInInspector]
-    public Transform camTrans;
-
-    public bool bossfight = false;
+    private bool bossfight = false;
 
     private float turnSmoothing = .1f;
     private float minAngle = 0;
@@ -35,23 +36,6 @@ public class CameraManager : MonoBehaviour
     {
         MainCamera.SetActive(true);
         SecondCamera.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if (!bossfight)
-        {
-            SecondCamera.SetActive(true);
-        }
-        else
-        {
-            MainCamera.SetActive(true);
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            transform.LookAt(target);
-        }
     }
 
     public void Init(Transform t)
@@ -83,18 +67,7 @@ public class CameraManager : MonoBehaviour
         HandleRotations(d, v, h, targetSpeed);
     }
 
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        MainCamera.SetActive(false);
-        SecondCamera.SetActive(true);
-    }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        MainCamera.SetActive(true);
-        SecondCamera.SetActive(false);
-    }
-    */
 
     public void FollowTarget(float d)
     {
@@ -115,9 +88,6 @@ public class CameraManager : MonoBehaviour
         {
             smoothX = h;
             smoothY = v;
-        }
-        if (lockon)
-        {
         }
 
         lookAngle += smoothX * targetSpeed;

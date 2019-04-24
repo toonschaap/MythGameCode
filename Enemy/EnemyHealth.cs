@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public AudioSource hit;
-    public int HealthCounter;
-    public AudioSource dealDamage;
+    [SerializeField]
+    private AudioSource hit;
+    [SerializeField]
+    private int Counter;
+    [SerializeField]
+    private AudioSource dealDamage;
 
-    // Update is called once per frame
     private void Update()
     {
-        if (HealthCounter <= 0)
+        if (Counter <= 0)
         {
             GetComponent<EnemyAttack>().enabled = false;
             GetComponent<EnemyMovement>().enabled = false;
@@ -19,13 +21,14 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter(Collider collision)
     {
+        //Changing the tag to a gameobject broke the script. Therefore the tags remained.
         if (collision.gameObject.tag == "PlayerWeapon")
         {
             dealDamage.Play();
             Debug.Log("Enemy hit");
-            HealthCounter--;
+            Counter--;
         }
     }
 

@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WebBallMovement : MonoBehaviour
+public class DeflectedMovement : MonoBehaviour
 {
-    public GameObject Deflecttarget;
+    [SerializeField]
+    private GameObject Deflecttarget;
     Vector3 movement;
-    public float DeflectMovement;
+    [SerializeField]
+    private float DeflectMovement;
+    [SerializeField]
+    private GameObject Hitbox1;
+    [SerializeField]
+    private GameObject Hitbox2;
+    [SerializeField]
+    private int Distance;
+
 
     public IEnumerator InverseMovement()
     {
-        GetComponent<NormalWebMove>().enabled = false;
+        GetComponent<MovementTowardsTarget>().enabled = false;
         float interpolate = 0;
-        while(interpolate < 100)
+        while(interpolate < Distance)
         {
             transform.position = Vector3.MoveTowards(transform.position, Deflecttarget.transform.position, interpolate);
             interpolate += DeflectMovement * Time.deltaTime;
@@ -22,7 +31,7 @@ public class WebBallMovement : MonoBehaviour
 
     public void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.tag == "EnemyHitBox" || collision.gameObject.tag == "PlayerHitBox")
+        if(collision.gameObject == Hitbox1 || collision.gameObject == Hitbox2)
         {
             
             Destroy(this.gameObject);

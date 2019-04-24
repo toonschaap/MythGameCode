@@ -2,38 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StandardChestOpening : MonoBehaviour
+public class Points3 : MonoBehaviour
 {
-    public int WisdomInChest;
-    public bool ChestOpen;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    [SerializeField]
+    private bool Open;
+    [SerializeField]
+    private AudioSource openingSound;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             GiveWisdom();
+            openingSound.Play();
             StartCoroutine("ChestAnimation");
- 
+
         }
     }
 
     void GiveWisdom()
     {
         GameObject Finder = GameObject.FindWithTag("Player");
-        Finder.GetComponent<WisdomCounter>().IncreaseWisdomChest();
-        
+        Finder.GetComponent<ScoreCounter>().PointsObject3();
+
     }
 
     IEnumerator ChestAnimation()
@@ -42,4 +33,5 @@ public class StandardChestOpening : MonoBehaviour
         Destroy(this.gameObject);
         //Play animation
     }
+
 }
